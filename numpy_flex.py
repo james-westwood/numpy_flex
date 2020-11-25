@@ -111,3 +111,72 @@ print(reversed_rows_arr)
 
 arr = np.random.uniform(low=5, high=11, size=(5,3))
 print(arr)
+
+
+# 21. How to print only 3 decimal places in python numpy array?
+# Q. Print or show only 3 decimal places of the numpy array rand_arr.
+
+rand_arr = np.random.random((5,3))
+
+# solution, use: numpy.set_printoptions(precision=None...) 
+# #from https://het.as.utexas.edu/HET/Software/Numpy/reference/generated/numpy.set_printoptions.html
+
+np.set_printoptions(precision=3)
+print(rand_arr)
+
+# 22. How to pretty print a numpy array by suppressing the scientific notation (like 1e10)?
+# Q. Pretty print rand_arr by suppressing the scientific notation (like 1e10)
+
+# Create the random array
+np.random.seed(100)
+rand_arr = np.random.random([3,3])/1e3
+
+# Desired Output (similar to):
+#> array([[ 0.000543,  0.000278,  0.000425],
+#>        [ 0.000845,  0.000005,  0.000122],
+#>        [ 0.000671,  0.000826,  0.000137]])
+
+np.set_printoptions(suppress=True)
+print(rand_arr)
+
+# 23. How to limit the number of items printed in output of numpy array?
+# Q. Limit the number of items printed in python numpy array a to a maximum of 6 elements.
+
+a = np.arange(15)
+#> array([ 0,  1,  2,  3,  4,  5,  6,  7,  8,  9, 10, 11, 12, 13, 14])
+# Desired Output:
+#> array([ 0,  1,  2, ..., 12, 13, 14])
+
+np.set_printoptions(threshold=6)
+print(a)
+
+# 24. How to print the full numpy array without truncating
+# Q. Print the full numpy array a without truncating.
+
+# Input:
+
+
+a = np.arange(15)
+np.set_printoptions(threshold=sys.maxsize)
+print(a)
+#> array([ 0,  1,  2, ..., 12, 13, 14])
+
+
+# 25. How to import a dataset with numbers and texts keeping the text intact in python numpy?
+# Q. Import the iris dataset keeping the text intact.
+
+import requests
+import io
+
+link = "https://archive.ics.uci.edu/ml/machine-learning-databases/iris/iris.data"
+
+response = requests.get(link, verify=False)
+response.raise_for_status()
+data = np.load(io.BytesIO(response.content))  # Works!
+
+# data = np.loadtxt(link)
+
+print(data)
+# Not sure if this one is working because I can't run it on ONS work machine
+
+
