@@ -105,7 +105,7 @@ rand_arr = np.random.random([3,3])/1e3
 #> array([[ 0.000543,  0.000278,  0.000425],
 #>        [ 0.000845,  0.000005,  0.000122],
 #>        [ 0.000671,  0.000826,  0.000137]])
-
+Define branch protection rules to disable force pushing, prevent branches from being deleted, and optionally require status checks before merging. New to branch protection rules? Learn more.
 np.set_printoptions(suppress=True)
 print(rand_arr)
 
@@ -148,3 +148,26 @@ data = np.load(io.BytesIO(response.content))  # Works!
 
 print(data)
 # Not sure if this one is working because I can't run it on ONS work machine
+
+# LOOKS LIKE np.genfromtxt() would have been a better solution
+
+# 26. How to extract a particular column from 1D array of tuples?
+# Q. Extract the text column species from the 1D iris imported in previous question.
+
+url = 'https://archive.ics.uci.edu/ml/machine-learning-databases/iris/iris.data'
+iris_1d = np.genfromtxt(url, delimiter=',', dtype=None)
+
+text_col = np.array([row[4] for row in iris_1d])
+
+# 27. How to convert a 1d array of tuples to a 2d numpy array?
+# Q. Convert the 1D iris to 2D array iris_2d by omitting the species text field.
+
+# running iris_1d.dtype.names gives us the col names
+# The names can be used to access items in the np.void (like a tuple)
+
+# HACKY AS HELL solution using nested list comprehension and unpacking the list of voids
+iris_2d = np.array([[*void[['f0', 'f1', 'f2', 'f3']]] for void in iris_1d])
+
+# Given solution using .tolist() method on the np.voids
+
+iris_2d = np.array([row.tolist()[:4] for row in iris_1d])
